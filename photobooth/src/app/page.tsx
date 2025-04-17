@@ -10,9 +10,7 @@ export default function HomePage() {
   const router = useRouter();
 
   return (
-    <main 
-      className="min-h-screen flex flex-col items-center justify-center text-white p-8 bg-gradient-to-b from-yellow-200 to-pink-200"
-      >
+    <main className="min-h-screen flex flex-col items-center justify-center text-white p-8 bg-gradient-to-b from-yellow-200 to-pink-200">
       <h1 className="text-6xl font-bold mb-15 text-center text-black">
         8-bit Photobooth
       </h1>

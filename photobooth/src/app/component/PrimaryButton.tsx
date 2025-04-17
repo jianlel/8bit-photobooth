@@ -6,6 +6,7 @@ type Props = {
   label: string;
   onClick: () => void;
   color?: 'blue' | 'green' | 'red';
+  disabled?: boolean;
 };
 
 export default function PrimaryButton({ label, onClick, color = 'blue' }: Props) {
