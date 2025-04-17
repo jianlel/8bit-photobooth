@@ -9,7 +9,7 @@ export default function CapturePage() {
     // FORMAT = const [val, setVal] = useState<Type>(initialValue);
 
     const router = useRouter();
-    const videoRef = useRef<HTMLVideoElement>(null)
+    const videoRef = useRef<HTMLVideoElement | null>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [countdown, setCountdown] = useState<number | null>(null);
     const [capturedImages, setCapturedImages] = useState<String[]>([]);
@@ -92,6 +92,7 @@ export default function CapturePage() {
 
     const stopVideo = () => {
         const video = videoRef.current;
+        if(!video) return;
         const stream = video?.srcObject as MediaStream;
 
         if (stream) {
@@ -182,6 +183,18 @@ export default function CapturePage() {
                 ))}
             </div>
             
+            <footer className="text-center py-4 text-black text-sm">
+                Made with ❤️ by{' '}
+                <a
+                    href="https://github.com/jianlel"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="underline text-blue-700 hover:text-blue-900 transition"
+                >
+                    @jianlel
+                </a>
+            </footer>
+
         </main>
     );
 }

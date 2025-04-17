@@ -53,17 +53,19 @@ export default function HomePage() {
         </div>
       </div>
 
-      <h3 className="mt-60 text-black text-sm font-mono">
-        Made with ❤️ by{' '}
-        <a
-          href="https://github.com/jianlel"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline text-blue-700 hover:text-blue-900 transition"
-        >
-          @jianlel
-        </a>
-      </h3>
+      <footer className="text-center py-4 text-black text-sm">
+          Made with ❤️ by{' '}
+          <a
+            href="https://github.com/jianlel"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-blue-700 hover:text-blue-900 transition"
+          >
+            @jianlel
+          </a>
+        </footer>
     </main>
+
+    
   );
 }
