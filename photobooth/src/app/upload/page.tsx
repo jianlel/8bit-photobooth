@@ -11,26 +11,32 @@ export default function uploadPage() {
     const MAX_FILE_SIZE_MB = 5
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
     const router = useRouter();
-    const [uploadedImages, setUploadedImages] = useState<string[]>([]);
-
-    const handleFileUpload1 = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-      
-        const reader = new FileReader();
-        reader.onload = () => {
-          setUploadedImages((prev) => {
-            const copy = [...prev];
-            const nextEmpty = copy.findIndex((v) => !v);
-            if (nextEmpty !== -1) copy[nextEmpty] = reader.result as string;
-            return copy;
-          });
-        };
-        reader.readAsDataURL(file);
-    }
+    const [uploadedImages, setUploadedImages] = useState<string[]>(['','','']);
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        
+        const file = e.target.files?.[0]
+        if (!file) return;
+
+        if (!ALLOWED_TYPES.includes(file.type)) {
+            alert('Only JPG/JPEG/PNG files allowed!');
+            return;
+        }
+
+        if (file.size > MAX_FILE_SIZE_MB*1024*1024) {
+            alert(`File size should not exceed ${MAX_FILE_SIZE_MB}MB`);
+            return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = () => {
+            setUploadedImages((prev) => {
+                const copy = [...prev];
+                const nextEmpty = copy.findIndex((v) => !v);
+                if (nextEmpty !== -1) copy[nextEmpty] = reader.result as string;
+                return copy;
+            });
+        };
+        reader.readAsDataURL(file);
     }
 
     const handleDrop = (e: React.DragEvent, index: number) => {
