@@ -3,12 +3,14 @@
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState} from 'react'
 import PrimaryButton from '@/app/component/PrimaryButton';
+import { usePhotoContext } from '@/context/PhotoContext';
 
 export default function CapturePage() {
     // Put the typescript part here
     // FORMAT = const [val, setVal] = useState<Type>(initialValue);
 
     const router = useRouter();
+    const { setImages } = usePhotoContext();
     const videoRef = useRef<HTMLVideoElement | null>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [countdown, setCountdown] = useState<number | null>(null);
@@ -119,7 +121,12 @@ export default function CapturePage() {
                     <div className="flex gap-6 w-[640px]">
                         <PrimaryButton
                         label="Edit Photos"
-                        onClick={() => router.push('/edit')}
+                        onClick={() => {
+                            setImages(capturedImages);
+                            //console.log('Images saved', capturedImages)
+                            router.push('/edit')
+                            }
+                        }
                         color="red"
                         />
                         <PrimaryButton
@@ -168,7 +175,7 @@ export default function CapturePage() {
                 {[0, 1, 2].map((idx) => (
                     <div
                     key={idx}
-                    className="w-32 h-24 flex items-center justify-center rounded-xl border-3 border-double border-gray-400 bg-white text-sm text-gray-600"
+                    className="w-38 h-38 flex items-center justify-center rounded-xl border-3 border-double border-gray-400 bg-white text-sm text-gray-600"
                     >
                     {capturedImages[idx] ? (
                         <img

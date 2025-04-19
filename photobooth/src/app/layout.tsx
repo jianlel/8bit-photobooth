@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import { Press_Start_2P, Pixelify_Sans } from 'next/font/google';
+import { PhotoProvider } from '@/context/PhotoContext'
 import "./globals.css";
 
 const geistSans = Geist({
@@ -40,10 +41,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${pixelify.className} antialiased`}
-      >
-        {children}
+      <body className={`${pixelify.className} antialiased`}>
+         <PhotoProvider>
+          {children}
+         </PhotoProvider>
       </body>
     </html>
   );

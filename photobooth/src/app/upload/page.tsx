@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 import PrimaryButton from '../component/PrimaryButton';
+import { usePhotoContext } from '@/context/PhotoContext';
 import React from 'react';
 
 export default function uploadPage() {
@@ -10,8 +11,10 @@ export default function uploadPage() {
     // Typescript goes here
     const MAX_FILE_SIZE_MB = 5
     const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/jpg']
+    const { setImages } = usePhotoContext();
     const router = useRouter();
     const [uploadedImages, setUploadedImages] = useState<string[]>(['','','']);
+    const [warning, setWarning] = useState(false);
 
     const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -58,8 +61,17 @@ export default function uploadPage() {
     // HTML goes here
     return (
         <main className="min-h-screen flex flex-col items-center justify-center text-white p-8 bg-gradient-to-b from-yellow-200 to-pink-200">
-            <h1 className="text-4xl font-bold mb-15 text-center text-black">
-                Upload Your Photo(s)!
+            <div className="h-5 mt-5 text-base transition-opacity duration-300 text-red-600 text-center">
+                {warning ? (
+                    <span className="opacity-100">Please upload all 3 images before continuing!</span>
+                ) : (
+                    <span className="opacity-0 select-none">xd</span>
+                )}
+            </div>
+                        
+        
+            <h1 className="text-4xl font-bold mt-15 mb-15 text-center text-black">
+                Upload Your Photos!
             </h1>
  
             <div className="flex gap-6 mb-6">
@@ -69,7 +81,7 @@ export default function uploadPage() {
                     onDragOver={(e) => e.preventDefault()}
                     onDrop={(e) => handleDrop(e, idx)}
                     onClick={() => document.getElementById(`file-upload-${idx}`)?.click()}
-                    className="w-40 h-40 border-2 border-dashed border-gray-400 bg-white flex items-center justify-center rounded-xl cursor-pointer hover:border-blue-500 transition"
+                    className="w-60 h-60 border-2 border-dashed border-gray-400 bg-white flex items-center justify-center rounded-xl cursor-pointer hover:border-blue-500 transition"
                 >
                     {uploadedImages[idx] ? (
                     <img
@@ -97,7 +109,18 @@ export default function uploadPage() {
             <div className="w-[200px]">
                 <PrimaryButton
                     label="Edit?"
-                    onClick={() => router.push('/edit')}
+                    onClick={() => {
+                            const isComplete = uploadedImages.every((img) => img !== '');
+                            if(!isComplete) {
+                                setWarning(true);
+                                setTimeout(() => setWarning(false), 3000);
+                                return;
+                            }
+                            setImages(uploadedImages);
+                            //console.log('Images to save', uploadedImages)
+                            router.push('/edit');
+                        }
+                    }
                 />
             </div>
             
