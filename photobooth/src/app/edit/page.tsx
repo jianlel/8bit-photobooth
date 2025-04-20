@@ -14,10 +14,10 @@ export default function editPage() {
     const stripRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    const [activeLayout, setActiveLayout] = useState<'default' | 'pink-strip' | 'blue-strip'>('default');
-    const [showPinkPhotostrip, setPinkPhotostrip] = useState(false);
-    const [showBluePhotostrip, setBluePhotostrip] = useState(false);
+    const [stripLayout, setStripLayout] = useState<'default' | 'pink-strip' | 'blue-strip'>('default');
+    const [frameLayout, setFrameLayout] = useState<'default' | 'pixel' | 'glitch'>('default');
 
+    
     const downloadStrip = async() => {
       if(!stripRef.current) return;
 
@@ -30,6 +30,30 @@ export default function editPage() {
         console.error('Download failed: ', error);
       })
     }
+
+    const renderFramedImage = (img: string, idx: number) => (
+      <div key={idx} className="relative w-50 h-50">
+        <img
+          src={img}
+          alt={`Photo ${idx + 1}`}
+          className="w-full h-full object-cover rounded-lg shadow"
+        />
+        {frameLayout === 'pixel' && (
+          <img
+            src="/pixel_frame.png"
+            alt="Pixel Frame"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          />
+        )}
+        {frameLayout === 'glitch' && (
+          <img
+          src="/glitch_frame.png"
+          alt="Glitch Frame"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        />
+        )}
+      </div>
+    );
 
     // HTML goes here
     return (
@@ -57,63 +81,75 @@ export default function editPage() {
                 onClick={() => router.push('/upload')}
               />
             </div>
-    
-            <div className="flex bg-white/70 rounded-xl shadow-lg p-6 gap-4 w-[400px]">
-              <PrimaryButton
-                label="Pink strip"
-                color="pink"
-                onClick={() => setActiveLayout(activeLayout === 'pink-strip' ? 'default' : 'pink-strip')}
-              />
-              <PrimaryButton
-                label="Blue strip"
-                color="blue"
-                onClick={() => setActiveLayout(activeLayout === 'blue-strip' ? 'default' : 'blue-strip')}
-              />
+            
+            {/* Buttons to add things to image */}
+            <div className="flex flex-col gap-6 bg-white/70 rounded-xl shadow-lg p-6 w-[400px] text-black">
+              {/* Strip Group */}
+              <div>
+                <h2 className="text-lg font-bold mb-3 text-center">Photostrip!</h2>
+                <div className="flex gap-4">
+                  <PrimaryButton
+                    label="Pink strip"
+                    color="pink"
+                    onClick={() =>
+                      setStripLayout(stripLayout === 'pink-strip' ? 'default' : 'pink-strip')
+                    }
+                  />
+                  <PrimaryButton
+                    label="Blue strip"
+                    color="blue"
+                    onClick={() =>
+                      setStripLayout(stripLayout === 'blue-strip' ? 'default' : 'blue-strip')
+                    }
+                  />
+                </div>
+              </div>
+
+              {/* Frame Group */}
+              <div>
+                <h2 className="text-lg font-bold mb-3 text-center">Frames!</h2>
+                <div className="flex gap-4">
+                  <PrimaryButton
+                    label="Pixel"
+                    color="fuchsia"
+                    onClick={() =>
+                      setFrameLayout(frameLayout === 'pixel' ? 'default' : 'pixel')
+                    }
+                  />
+                  <PrimaryButton
+                    label="Glitch"
+                    color="indigo"
+                    onClick={() =>
+                      setFrameLayout(frameLayout === 'glitch' ? 'default' : 'glitch')
+                    }
+                  />
+                </div>
+              </div>
+
+              {/* Accessories Group */}
+              <div>
+                <h2 className="text-lg font-bold mb-3 text-center">Accessories!</h2>
+
+              </div>
             </div>
 
-            <div className="flex flex-col gap-4">
-              {activeLayout === 'pink-strip' && (
-                <div
-                  ref={stripRef}
-                  className="bg-pink-500 p-6 rounded-2xl shadow-2xl w-[250px] flex flex-col gap-4 items-center border-[8px] border-black"
-                >
-                  {images.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img}
-                      alt={`Photo ${idx + 1}`}
-                      className="w-50 h-50 object-cover rounded-lg shadow"
-                    />
-                  ))}
+            {/* Image display here */}
+            <div ref={stripRef} className="flex flex-col gap-4">
+              {stripLayout === 'pink-strip' && (
+                <div className="bg-pink-500 p-6 rounded-2xl shadow-2xl w-[250px] flex flex-col gap-6 items-center border-[8px] border-black">
+                  {images.map(renderFramedImage)}
                 </div>
               )}
 
-              {activeLayout === 'blue-strip' && (
-                <div
-                  ref={stripRef}
-                  className="bg-blue-500 p-6 rounded-2xl shadow-2xl w-[250px] flex flex-col gap-4 items-center border-[8px] border-black"
-                >
-                  {images.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img}
-                      alt={`Photo ${idx + 1}`}
-                      className="w-50 h-50 object-cover rounded-lg shadow"
-                    />
-                  ))}
+              {stripLayout === 'blue-strip' && (
+                <div className="bg-blue-500 p-6 rounded-2xl shadow-2xl w-[250px] flex flex-col gap-6 items-center border-[8px] border-black">
+                  {images.map(renderFramedImage)}
                 </div>
               )}
 
-              {activeLayout === 'default' && (
-                <div ref={stripRef} className="flex flex-col gap-4">
-                  {images.map((img, idx) => (
-                    <img
-                      key={idx}
-                      src={img}
-                      alt={`Photo ${idx + 1}`}
-                      className="w-50 h-50 object-cover rounded-lg shadow"
-                    />
-                  ))}
+              {stripLayout === 'default' && (
+                <div className="flex flex-col gap-4">
+                  {images.map(renderFramedImage)}
                 </div>
               )}
             </div>
