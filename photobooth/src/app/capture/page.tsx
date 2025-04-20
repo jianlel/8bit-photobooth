@@ -107,101 +107,101 @@ export default function CapturePage() {
     }
 
     // Put the HTML part here
-
-    return(
-        <main className="min-h-screen flex flex-col items-center justify-center text-white p-8 bg-gradient-to-b from-yellow-200 to-pink-200">
+    return (
+        <div className="flex flex-col min-h-screen bg-gradient-to-b from-yellow-200 to-pink-200 text-white">
+          <main className="flex-1 flex flex-col items-center justify-center p-8">
             <div className="w-[640px]">
-                {!done && !isCapturing ? (
-                    <PrimaryButton
-                        label="Looking good, Take a Photo?"
-                        onClick={startPhotoSequence}
-                        color="blue"
-                    />
-                    ) : done ? (
-                    <div className="flex gap-6 w-[640px]">
-                        <PrimaryButton
-                        label="Edit Photos"
-                        onClick={() => {
-                            setImages(capturedImages);
-                            //console.log('Images saved', capturedImages)
-                            router.push('/edit')
-                            }
-                        }
-                        color="red"
-                        />
-                        <PrimaryButton
-                        label="Retake?"
-                        onClick={startRetake}
-                        color="green"
-                        />
-                    </div>
-                    ) : null}
-            </div>
-
-            <div className="relative w-[640px] h-[480px] mt-3">
-                <video
-                    ref={videoRef}
-                    autoPlay
-                    muted
-                    className="w-full h-full rounded-lg bg-gray-800 shadow-lg"
+              {!done && !isCapturing ? (
+                <PrimaryButton
+                  label="Looking good, Take a Photo?"
+                  onClick={startPhotoSequence}
+                  color="blue"
                 />
-
-                {(countdown !== null || status) && (
-                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 rounded-lg">
-                    {status && (
-                        <div className="text-2xl font-bold text-white mb-2">{status}</div>
-                    )}
-                    {countdown !== null && (
-                        <div className="text-7xl font-extrabold text-yellow-400 drop-shadow-md">
-                        {countdown}
-                        </div>
-                    )}
-                    </div>
-                )}
-
-                {flash && (
-                    <div className="absolute inset-0 bg-white opacity-80 rounded-lg pointer-events-none transition-opacity duration-150" />
-                )}
+              ) : done ? (
+                <div className="flex gap-6 w-[640px]">
+                  <PrimaryButton
+                    label="Edit Photos"
+                    onClick={() => {
+                      setImages(capturedImages);
+                      router.push('/edit');
+                    }}
+                    color="red"
+                  />
+                  <PrimaryButton
+                    label="Retake?"
+                    onClick={startRetake}
+                    color="green"
+                  />
+                </div>
+              ) : null}
             </div>
-
+      
+            <div className="relative w-[640px] h-[480px] mt-3">
+              <video
+                ref={videoRef}
+                autoPlay
+                muted
+                className="w-full h-full rounded-lg bg-gray-800 shadow-lg"
+              />
+      
+              {(countdown !== null || status) && (
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/30 rounded-lg">
+                  {status && (
+                    <div className="text-2xl font-bold text-white mb-2">{status}</div>
+                  )}
+                  {countdown !== null && (
+                    <div className="text-7xl font-extrabold text-yellow-400 drop-shadow-md">
+                      {countdown}
+                    </div>
+                  )}
+                </div>
+              )}
+      
+              {flash && (
+                <div className="absolute inset-0 bg-white opacity-80 rounded-lg pointer-events-none transition-opacity duration-150" />
+              )}
+            </div>
+      
             <canvas
-                ref={canvasRef}
-                width={640}
-                height={480}
-                className="hidden"
+              ref={canvasRef}
+              width={640}
+              height={480}
+              className="hidden"
             />
-
+      
             <div className="flex gap-8 mt-6">
-                {[0, 1, 2].map((idx) => (
-                    <div
-                    key={idx}
-                    className="w-38 h-38 flex items-center justify-center rounded-xl border-3 border-double border-gray-400 bg-white text-sm text-gray-600"
-                    >
-                    {capturedImages[idx] ? (
-                        <img
-                        src={capturedImages[idx]}
-                        alt={`Capture ${idx + 1}`}
-                        className="w-full h-full object-cover rounded"
-                        />
-                    ) : (
-                        `Slot ${idx + 1}`
-                    )}
-                    </div>
-                ))}
-            </div>
-            
-            <footer className="text-center py-4 text-black text-sm">
-                Made with ❤️ by{' '}
-                <a
-                    href="https://github.com/jianlel"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="underline text-blue-700 hover:text-blue-900 transition"
+              {[0, 1, 2].map((idx) => (
+                <div
+                  key={idx}
+                  className="w-38 h-38 flex items-center justify-center rounded-xl border-3 border-double border-gray-400 bg-white text-sm text-gray-600"
                 >
-                    @jianlel
-                </a>
-            </footer>
-
-        </main>
-    );
+                  {capturedImages[idx] ? (
+                    <img
+                      src={capturedImages[idx]}
+                      alt={`Capture ${idx + 1}`}
+                      className="w-full h-full object-cover rounded"
+                    />
+                  ) : (
+                    `Slot ${idx + 1}`
+                  )}
+                </div>
+              ))}
+            </div>
+          </main>
+      
+          {/* Footer */}
+          <footer className="text-center py-4 text-black text-sm">
+            Made with ❤️ by{' '}
+            <a
+              href="https://github.com/jianlel"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline text-blue-700 hover:text-blue-900 transition"
+            >
+              @jianlel
+            </a>
+          </footer>
+        </div>
+      );
+      
 }
