@@ -152,21 +152,14 @@ export default function editPage() {
                     label="Gameboy"
                     color='green'
                     onClick={() =>
+                      toggleAccessory('gameboy')
+                    }
+                  />
+                  </div>
               </div>
             </div>
 
             {/* Image display here */}
-            <div ref={stripRef} className="flex flex-col gap-4">
-              {stripLayout === 'pink-strip' && (
-                <div className="bg-pink-500 p-6 rounded-2xl shadow-2xl w-[250px] flex flex-col gap-6 items-center border-[8px] border-black">
-                  {images.map(renderFramedImage)}
-                </div>
-              )}
-
-              {stripLayout === 'blue-strip' && (
-                <div className="bg-blue-500 p-6 rounded-2xl shadow-2xl w-[250px] flex flex-col gap-6 items-center border-[8px] border-black">
-                  {images.map(renderFramedImage)}
-                </div>
             <div ref={stripRef} className="relative w-fit h-fit">
               <div
                 className={`
