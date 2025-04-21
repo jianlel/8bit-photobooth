@@ -4,6 +4,7 @@ import { usePhotoContext } from '@/context/PhotoContext'
 import PrimaryButton from '../component/PrimaryButton';
 import { useRouter } from 'next/navigation';
 import { useRef, useState } from 'react';
+import { accessoryOptions } from '@/utils/accessories';
 import domtoimage from 'dom-to-image-more' 
 
 export default function editPage() {
@@ -14,14 +15,16 @@ export default function editPage() {
     const stripRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
-    const [stripLayout, setStripLayout] = useState<'default' | 'pink-strip' | 'blue-strip'>('default');
+    const [stripLayout, setStripLayout] = useState<'default' | 'pink-strip' | 'indigo-strip'>('default');
     const [frameLayout, setFrameLayout] = useState<'default' | 'pixel' | 'glitch'>('default');
-
+    const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
     
     const downloadStrip = async() => {
       if(!stripRef.current) return;
 
-      domtoimage.toPng(stripRef.current).then((dataUrl) => {
+      domtoimage.toPng(stripRef.current, {
+        bgcolor: 'transparent'
+      }).then((dataUrl) => {
         const link = document.createElement('a');
         link.download = 'photostrip.png';
         link.href = dataUrl;
@@ -30,6 +33,12 @@ export default function editPage() {
         console.error('Download failed: ', error);
       })
     }
+
+    const toggleAccessory = (id: string) => {
+      setSelectedAccessories(prev => 
+        prev.includes(id) ? prev.filter(a => a !== id) : [...prev, id]
+      );
+    };
 
     const renderFramedImage = (img: string, idx: number) => (
       <div key={idx} className="relative w-50 h-50">
@@ -61,11 +70,6 @@ export default function editPage() {
           <main className="flex-1 flex items-center justify-center p-8 gap-20">
             <div className="flex flex-col gap-4 w-[150px]">
               <PrimaryButton
-                label="Preview?"
-                color="red"
-                onClick={() => console.log('Preview test')}
-              />
-              <PrimaryButton
                 label="Download?"
                 color="fuchsia"
                 onClick={downloadStrip}
@@ -83,23 +87,23 @@ export default function editPage() {
             </div>
             
             {/* Buttons to add things to image */}
-            <div className="flex flex-col gap-6 bg-white/70 rounded-xl shadow-lg p-6 w-[400px] text-black">
+            <div className="flex flex-col gap-6 bg-white/70 rounded-xl shadow-lg p-6 w-[500px] text-black">
               {/* Strip Group */}
               <div>
                 <h2 className="text-lg font-bold mb-3 text-center">Photostrip!</h2>
                 <div className="flex gap-4">
                   <PrimaryButton
-                    label="Pink strip"
+                    label="Pink"
                     color="pink"
                     onClick={() =>
                       setStripLayout(stripLayout === 'pink-strip' ? 'default' : 'pink-strip')
                     }
                   />
                   <PrimaryButton
-                    label="Blue strip"
-                    color="blue"
+                    label="Indigo"
+                    color='indigo'
                     onClick={() =>
-                      setStripLayout(stripLayout === 'blue-strip' ? 'default' : 'blue-strip')
+                      setStripLayout(stripLayout === 'indigo-strip' ? 'default' : 'indigo-strip')
                     }
                   />
                 </div>
@@ -129,7 +133,25 @@ export default function editPage() {
               {/* Accessories Group */}
               <div>
                 <h2 className="text-lg font-bold mb-3 text-center">Accessories!</h2>
-
+                  <div className='flex gap-4'>
+                    <PrimaryButton
+                    label="Hearts ❤️"
+                    color='rose'
+                    onClick={() =>
+                      toggleAccessory('heart')
+                    }
+                  />
+                  <PrimaryButton
+                    label="Sunglasses 😎"
+                    color='cyan'
+                    onClick={() =>
+                      toggleAccessory('sunglasses')
+                    }
+                  />
+                  <PrimaryButton
+                    label="Gameboy"
+                    color='green'
+                    onClick={() =>
               </div>
             </div>
 
@@ -145,13 +167,31 @@ export default function editPage() {
                 <div className="bg-blue-500 p-6 rounded-2xl shadow-2xl w-[250px] flex flex-col gap-6 items-center border-[8px] border-black">
                   {images.map(renderFramedImage)}
                 </div>
-              )}
+            <div ref={stripRef} className="relative w-fit h-fit">
+              <div
+                className={`
+                  flex flex-col gap-4 items-center w-[250px] p-6 rounded-2xl shadow-2xl border-[8px]
+                  ${stripLayout === 'pink-strip' ? 'bg-pink-500 border-black' : ''}
+                  ${stripLayout === 'indigo-strip' ? 'bg-indigo-500 border-black' : ''}
+                  ${stripLayout === 'default' ? 'bg-transparent border-transparent' : ''}
+                `}
+              >
+                {images.map(renderFramedImage)}
+              </div>
 
-              {stripLayout === 'default' && (
-                <div className="flex flex-col gap-4">
-                  {images.map(renderFramedImage)}
-                </div>
-              )}
+              {/* Show all selected accessories */}
+              {accessoryOptions
+                .filter(option => selectedAccessories.includes(option.id))
+                .flatMap((option) =>
+                  option.position.map((pos, index) => (
+                    <img
+                      key={`${option.id}-${index}`}
+                      src={option.src}
+                      alt={option.alt}
+                      className={`absolute ${pos} ${option.size} pointer-events-none`}
+                    />
+                  ))
+                )}
             </div>
           </main>
 

@@ -125,12 +125,12 @@ export default function CapturePage() {
                       setImages(capturedImages);
                       router.push('/edit');
                     }}
-                    color="red"
+                    color="green"
                   />
                   <PrimaryButton
                     label="Retake?"
                     onClick={startRetake}
-                    color="green"
+                    color="red"
                   />
                 </div>
               ) : null}
