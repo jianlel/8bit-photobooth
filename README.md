@@ -1,40 +1,36 @@
-# 📸 8-Bit Photobooth
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-> *Ever wanted to visit an 8-bit themed photobooth but couldn't find one nearby?*  
-> Now you can enjoy the retro magic of pixel-art, filters, and custom stickers—right from your browser.
+## Getting Started
 
----
+First, run the development server:
 
-## 🌟 Features
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-🎮 **8-Bit Inspired Design**  
-Enjoy a nostalgic UI complete with pixel fonts, gradients, and retro animations.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-📷 **Take or Upload Photos**  
-- Use your webcam to snap 3 timed photos with a countdown
-- Or upload 3 images from your device
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-🎨 **Customize Your Strip**  
-- Choose between multiple strip styles (e.g., pink, indigo)
-- Apply cool photo frames (pixel borders, CRT scanlines)
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-✨ **Decorate with Accessories**  
-- Add fun stickers like ❤️ hearts, 🕶️ glasses, 🎮 Gameboys
-- Position and rotate them around your strip for flair
+## Learn More
 
-🖼️ **Download Your Creation**  
-Export your customized photostrip—including frames and accessories—as a single image with one click.
+To learn more about Next.js, take a look at the following resources:
 
----
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## 🛠️ Built With
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-- **Next.js (App Router)** – React-based frontend framework
-- **Tailwind CSS** – Utility-first styling for fast design
-- **TypeScript** – Type-safe development experience
-- **dom-to-image-more** – For clean export of your final strip
-- **Custom Contexts** – To manage photo state across pages
+## Deploy on Vercel
 
----
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
