@@ -6,7 +6,6 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { accessoryOptions } from '@/utils/accessories';
-import domtoimage from 'dom-to-image-more' 
 
 export default function EditPage() {
     
@@ -21,6 +20,8 @@ export default function EditPage() {
     const [selectedAccessories, setSelectedAccessories] = useState<string[]>([]);
     
     const downloadStrip = async() => {
+      const domtoimage = (await import('dom-to-image-more')).default;
+
       if(!stripRef.current) return;
 
       domtoimage.toPng(stripRef.current, {
