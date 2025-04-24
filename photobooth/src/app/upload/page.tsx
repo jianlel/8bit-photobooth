@@ -4,9 +4,10 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react'
 import PrimaryButton from '../component/PrimaryButton';
 import { usePhotoContext } from '@/context/PhotoContext';
+import Image from 'next/image';
 import React from 'react';
 
-export default function uploadPage() {
+export default function UploadPage() {
     
     // Typescript goes here
     const MAX_FILE_SIZE_MB = 5
@@ -84,10 +85,13 @@ export default function uploadPage() {
                   className="w-60 h-60 border-2 border-dashed border-gray-400 bg-white flex items-center justify-center rounded-xl cursor-pointer hover:border-blue-500 transition"
                 >
                   {uploadedImages[idx] ? (
-                    <img
+                    <Image
                       src={uploadedImages[idx]}
                       alt={`Uploaded ${idx + 1}`}
+                      width={320}
+                      height={480}
                       className="w-full h-full object-cover rounded-xl"
+                      unoptimized 
                     />
                   ) : (
                     <span className="text-sm text-gray-500 text-center">Click or Drop</span>

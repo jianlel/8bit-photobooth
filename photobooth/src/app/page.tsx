@@ -2,7 +2,8 @@
 
 import { useRouter } from 'next/navigation';
 import PrimaryButton from '@/app/component/PrimaryButton';
-import React from 'react';;
+import React from 'react';
+import Image from 'next/image';
 
 export default function HomePage() {
   const router = useRouter();
@@ -17,10 +18,12 @@ export default function HomePage() {
         <div className="flex flex-row gap-16 max-w-6xl w-full items-center justify-center">
           <div className="w-1/2 flex justify-center">
             <div className="w-64 h-64 rounded-lg flex items-center justify-center">
-              <img
+              <Image
                 src="/sunglasses.png"
                 alt="8Bit image here"
-                className="w-64 h-64 object-contain rounded-lg shadow-lg -rotate-12"
+                width={300}
+                height={300}
+                className="object-contain rounded-lg shadow-lg -rotate-12"
               />
             </div>
           </div>
@@ -39,10 +42,12 @@ export default function HomePage() {
 
           <div className="w-1/2 flex justify-center">
             <div className="w-64 h-64 rounded-lg flex items-center justify-center">
-              <img
+              <Image
                 src="/heart.png"
-                alt="8Bit image here"
-                className="w-64 h-64 object-contain rounded-lg shadow-lg rotate-12"
+                alt="8Bit image there"
+                width={300}
+                height={300}
+                className="object-contain rounded-lg shadow-lg rotate-12"
               />
             </div>
           </div>

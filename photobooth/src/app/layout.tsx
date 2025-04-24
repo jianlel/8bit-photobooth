@@ -1,28 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Inter } from "next/font/google";
-import { Press_Start_2P, Pixelify_Sans } from 'next/font/google';
+import { Pixelify_Sans } from 'next/font/google';
 import { PhotoProvider } from '@/context/PhotoContext'
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const inter = Inter({
-  subsets: ['latin'],
-  weight: '400',
-});
-
-const pixelFont = Press_Start_2P({
-  subsets: ['latin'],
-  weight: '400',
-});
 
 const pixelify = Pixelify_Sans({
   subsets: ['latin'],

@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import React, { useEffect, useRef, useState} from 'react'
 import PrimaryButton from '@/app/component/PrimaryButton';
 import { usePhotoContext } from '@/context/PhotoContext';
+import Image from 'next/image';
 
 export default function CapturePage() {
     // Put the typescript part here
@@ -14,7 +15,7 @@ export default function CapturePage() {
     const videoRef = useRef<HTMLVideoElement | null>(null)
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const [countdown, setCountdown] = useState<number | null>(null);
-    const [capturedImages, setCapturedImages] = useState<String[]>([]);
+    const [capturedImages, setCapturedImages] = useState<string[]>([]);
     const [status, setStatus] = useState<string>('');
     const [isCapturing, setIsCapturing] = useState(false);
     const [flash, setFlash] = useState(false);
@@ -176,10 +177,13 @@ export default function CapturePage() {
                   className="w-38 h-38 flex items-center justify-center rounded-xl border-3 border-double border-gray-400 bg-white text-sm text-gray-600"
                 >
                   {capturedImages[idx] ? (
-                    <img
+                    <Image
                       src={capturedImages[idx]}
                       alt={`Capture ${idx + 1}`}
+                      width={320}
+                      height={480}
                       className="w-full h-full object-cover rounded"
+                      unoptimized 
                     />
                   ) : (
                     `Slot ${idx + 1}`

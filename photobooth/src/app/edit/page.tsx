@@ -3,11 +3,12 @@
 import { usePhotoContext } from '@/context/PhotoContext'
 import PrimaryButton from '../component/PrimaryButton';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 import { accessoryOptions } from '@/utils/accessories';
 import domtoimage from 'dom-to-image-more' 
 
-export default function editPage() {
+export default function EditPage() {
     
     // Typescript goes here
     const { images } = usePhotoContext();
@@ -24,12 +25,12 @@ export default function editPage() {
 
       domtoimage.toPng(stripRef.current, {
         bgcolor: 'transparent'
-      }).then((dataUrl) => {
+      }).then((dataUrl: string) => {
         const link = document.createElement('a');
         link.download = 'photostrip.png';
         link.href = dataUrl;
         link.click();
-      }).catch((error) => {
+      }).catch((error: unknown) => {
         console.error('Download failed: ', error);
       })
     }
@@ -42,24 +43,31 @@ export default function editPage() {
 
     const renderFramedImage = (img: string, idx: number) => (
       <div key={idx} className="relative w-50 h-50">
-        <img
+        <Image
           src={img}
           alt={`Photo ${idx + 1}`}
-          className="w-full h-full object-cover rounded-lg shadow"
+          fill
+          className="object-cover rounded-lg shadow"
+          unoptimized
         />
+        
         {frameLayout === 'pixel' && (
-          <img
+          <Image
             src="/pixel_frame.png"
             alt="Pixel Frame"
-            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+            fill
+            className="object-cover pointer-events-none"
+            unoptimized
           />
         )}
         {frameLayout === 'glitch' && (
-          <img
-          src="/glitch_frame.png"
-          alt="Glitch Frame"
-          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
-        />
+          <Image
+            src="/glitch_frame.png"
+            alt="Glitch Frame"
+            fill
+            className="object-cover pointer-events-none"
+            unoptimized
+          />
         )}
       </div>
     );
@@ -177,12 +185,18 @@ export default function editPage() {
                 .filter(option => selectedAccessories.includes(option.id))
                 .flatMap((option) =>
                   option.position.map((pos, index) => (
-                    <img
+                    <div
                       key={`${option.id}-${index}`}
-                      src={option.src}
-                      alt={option.alt}
                       className={`absolute ${pos} ${option.size} pointer-events-none`}
-                    />
+                    >
+                      <Image
+                        src={option.src}
+                        alt={option.alt}
+                        fill
+                        className="object-contain"
+                        unoptimized
+                      />
+                    </div>
                   ))
                 )}
             </div>
